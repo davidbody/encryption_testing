@@ -28,8 +28,8 @@ RSpec.describe CustomerAE, type: :model do
     end
 
     it "can query by ssn using where" do
-      customer = CustomerAE.where(encrypted_ssn: CustomerAE.encrypt_ssn("999-88-7777"))
-      expect(customer).to contain_exactly(@customer)
+      customers = CustomerAE.where(encrypted_ssn: CustomerAE.encrypt_ssn("999-88-7777"))
+      expect(customers).to contain_exactly(@customer)
     end
   end
 end

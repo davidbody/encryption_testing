@@ -16,4 +16,15 @@ RSpec.describe CustomerCK, type: :model do
       end
     end
   end
+
+  context "querying" do
+    before do
+      @customer = CustomerCK.create(first_name: "David", ssn: "999-88-7777")
+    end
+
+    it "can query by ssn using search_by_plaintext" do
+      customers = CustomerCK.search_by_plaintext(:ssn, "999-88-7777")
+      expect(customers).to contain_exactly @customer
+    end
+  end
 end

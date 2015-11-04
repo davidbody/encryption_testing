@@ -16,4 +16,20 @@ RSpec.describe CustomerAE, type: :model do
       end
     end
   end
+
+  context "querying" do
+    before do
+      @customer = CustomerAE.create(first_name: "David", ssn: "999-88-7777")
+    end
+
+    it "can query by ssn using find_by_ssn" do
+      customer = CustomerAE.find_by_ssn("999-88-7777")
+      expect(customer).to eq @customer
+    end
+
+    it "can query by ssn using where" do
+      customer = CustomerAE.where(encrypted_ssn: CustomerAE.encrypt_ssn("999-88-7777"))
+      expect(customer).to contain_exactly(@customer)
+    end
+  end
 end

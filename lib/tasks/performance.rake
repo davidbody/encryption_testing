@@ -5,15 +5,33 @@ Rails.env = "test"
 
 desc "Seed test database for performance examples"
 task performance_seed_db: :environment do
-#                            user     system      total        real
-# attr_encrypted       324.260000  13.480000 337.740000 (373.997343)
-# crypt_keeper         1232.760000 190.410000 1423.170000 (4479.264175)
+#                            user     system       total         real
+# unencrypted          130.850000  11.220000  142.070000  (172.901371)
+# attr_encrypted       324.260000  13.480000  337.740000  (373.997343)
+# crypt_keeper        1232.760000 190.410000 1423.170000 (4479.264175)
 #
   n = 100_000
 
   puts "Seeding #{Rails.env} database with performance data..."
 
   Benchmark.bm(20) do |bm|
+    bm.report("unencrypted") do
+      puts "Create #{n} unencrypted records..."
+      Customer.delete_all
+      ActiveRecord::Base.connection.reset_pk_sequence!('customers')
+
+      n.times do |i|
+        puts i if i % 1_000 == 0
+        params = {
+          first_name: Faker::Name.first_name,
+          last_name: Faker::Name.last_name,
+          ssn: Faker::Base.numerify("###-##-####"),
+          dob: Faker::Date.between(100.years.ago, Date.today)
+        }
+        Customer.create params
+      end
+    end
+
     bm.report("attr_encrypted") do
       puts "Creating #{n} attr_encrypted records..."
       CustomerAE.delete_all

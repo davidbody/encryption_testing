@@ -36,9 +36,7 @@ end
 # Randomized with seed 31817
 #                            user     system      total        real
 # unencrypted            0.010000   0.000000   0.010000 (  0.158169)
-#                            user     system      total        real
 # crypt_keeper           0.010000   0.010000   0.020000 (347.166144)
-#                            user     system      total        real
 # attr_encrypted         0.010000   0.000000   0.010000 (  0.158654)
 #
 # Finished in 5 minutes 47 seconds (files took 1.56 seconds to load)
